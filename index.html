@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mates Artesanales</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--verde:#1f3d2e;--marron:#4b2e2b;--gris:#f4f4f4}
+body{font-family:'Montserrat',sans-serif;background:#fff;color:#333}
+header{position:absolute;width:100%;z-index:10}
+.nav{max-width:1200px;margin:auto;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.logo img{width:160px}
+.cart-btn{background:var(--marron);color:#fff;padding:.6rem 1.4rem;border-radius:20px;cursor:pointer}
+.hero{height:100vh;background:url("img/portada.jpg") center/cover no-repeat;position:relative}
+.hero::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.25)}
+.hero-content{position:relative;height:100%;max-width:1200px;margin:auto;padding:2rem;display:flex;align-items:center;color:#fff}
+.hero h1{font-size:4rem}
+.productos{padding:5rem 2rem;background:var(--gris)}
+.productos h2{text-align:center;margin-bottom:3rem;color:var(--verde)}
+.product-grid{max-width:1200px;margin:auto;display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.product-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.1);text-align:center}
+.product-card img{width:100%;height:220px;object-fit:cover}
+.product-info{padding:1rem}
+.product-info h3{font-size:13.5px;line-height:1.3;font-weight:600}
+.price{font-weight:bold;color:var(--marron);margin:.4rem 0}
+.qty{width:60px}
+.product-info button{margin-top:.6rem;background:var(--marron);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:25px;cursor:pointer}
+.cart{position:fixed;top:0;right:-100%;width:340px;height:100%;background:#fff;box-shadow:-5px 0 20px rgba(0,0,0,.2);padding:1rem;transition:.3s;z-index:2000}
+.cart.active{right:0}
+.cart-header{display:flex;justify-content:space-between;align-items:center}
+.cart-item{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.cart-item span{font-size:11.5px;line-height:1.25}
+.cart-item img{width:45px;height:45px;border-radius:8px;object-fit:cover}
+.cart-total{font-weight:bold;margin-top:1rem}
+.cart button{width:100%;margin-top:1rem;padding:.7rem;border:none;border-radius:25px;background:var(--verde);color:#fff}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="logo"><img src="img/logo.jpg"></div><div class="cart-btn" onclick="toggleCart()">🛒 Carrito</div></div></header>
+<section class="hero">
+  <div class="hero-content">
+    <div>
+      <h1>Mates artesanales</h1>
+      <p class="hero-text">
+        Tradición, calidad y diseño<br>
+        pensados para acompañarte en cada momento.
+      </p>
+    </div>
+  </div>
+</section>
+<section class="productos"><h2>Nuestros productos</h2><div class="product-grid">
+
+<!-- MATES -->
+<div class="product-card"><img src="img/mate1.jpg"><div class="product-info"><h3>Imperial Botitas alpaca / pelotas de bronce – Negro – int.Calabaza</h3><div class="price">$44.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Imperial Botitas alpaca / pelotas de bronce – Negro – int.Calabaza" data-price="44900" data-img="img/mate1.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate2.jpg"><div class="product-info"><h3>Torpeto Virola Alpaca Cincelada – Calabaza – Cuero Borravino </h3><div class="price">$44.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Torpeto Virola Alpaca Cincelada – Calabaza – Cuero Borravino – Base de Alpaca ancha – Pelotas bronce" data-price="44900" data-img="img/mate2.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate3.jpg"><div class="product-info"><h3>Torpeto Virola Alpaca Cincelada – Calabaza – Cuero Natural </h3><div class="price">$44.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Torpeto Virola Alpaca Cincelada – Calabaza – Cuero Natural – Base de Alpaca ancha – Pelotas bronce" data-price="44900" data-img="img/mate3.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate4.jpg"><div class="product-info"><h3>Torpeto Virola Alpaca Cincelada – Calabaza – Cuero Negro </h3><div class="price">$44.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Torpeto Virola Alpaca Cincelada – Calabaza – Cuero Negro – Base de Alpaca ancha – Pelotas bronce" data-price="44900" data-img="img/mate4.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate5.jpg"><div class="product-info"><h3>Mate Ranchero - Manchas Blancas</h3><div class="price">$28.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Mate Ranchero moldeado y pintado a mano - Manchas Blancas" data-price="28900" data-img="img/mate5.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate6.jpg"><div class="product-info"><h3>Imperial algarrobo guarda de alpaca PREMIUM</h3><div class="price">$28.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Imperial algarrobo guarda de alpaca PREMIUM" data-price="28900" data-img="img/mate6.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate7.jpg"><div class="product-info"><h3>Torpedo algarrobo barnizado virola alpaca cincelado</h3><div class="price">$28.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Torpedo algarrobo barnizado virola alpaca cincelado" data-price="28900" data-img="img/mate7.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate8.jpg"><div class="product-info"><h3>Camionero 100% algarrobo virola acero</h3><div class="price">$19.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Camionero 100% algarrobo virola acero" data-price="19900" data-img="img/mate8.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate9.jpg"><div class="product-info"><h3>Torpedo negro interior de calabaza virola acero boca ancha</h3><div class="price">$24.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Torpedo negro interior de calabaza virola acero boca ancha" data-price="24900" data-img="img/mate9.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/mate10.jpg"><div class="product-info"><h3>Imperial guarda acero color marrón int. Calabaza</h3><div class="price">$28.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Imperial guarda acero color marrón int. Calabaza" data-price="28900" data-img="img/mate10.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<!-- TERMOS -->
+<div class="product-card"><img src="img/termoplateado.jpg"><div class="product-info"><h3>Termo media manija 1 LITRO COLOR ACERO</h3><div class="price">$22.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Termo media manija 1 LITRO COLOR ACERO" data-price="22900" data-img="img/termoplateado.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/termonegro.jpg"><div class="product-info"><h3>Termo media manija 1 LITRO COLOR NEGRO</h3><div class="price">$24.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Termo media manija 1 LITRO COLOR NEGRO" data-price="24900" data-img="img/termonegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<!-- BOMBILLAS -->
+<div class="product-card"><img src="img/bombilla1.jpg"><div class="product-info"><h3>Bombilla Pico de Loro - Acero Inoxidable caño redondo con dije de bronce</h3><div class="price">$4.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Bombilla Pico de Loro - Acero Inoxidable caño redondo con dije de bronce" data-price="4900" data-img="img/bombilla1.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/bombilla2.jpg"><div class="product-info"><h3>BOMBILLA 100% Alpaca - Pico de Loro 100% Bronce </h3><div class="price">$14.900</div><input type="number" class="qty" value="1" min="1"><button data-name="BOMBILLA 100% Alpaca - Pico de Loro 100% Bronce – FILTRO/PALA PARA CANARIAS" data-price="14900" data-img="img/bombilla2.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/bombilla3.jpg"><div class="product-info"><h3>Bombillon Pico Curvo Acero Inoxidable Grueso con Filtro/Pala</h3><div class="price">$8.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Bombillon Pico Curvo Acero Inoxidable Grueso con Filtro/Pala" data-price="8900" data-img="img/bombilla3.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/bombilla4.jpg"><div class="product-info"><h3>Bombillon Alpaca Completo doble dije de alpaca - Pico Curvo Largo</h3><div class="price">$24.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Bombillon Alpaca Completo doble dije de alpaca caño cincelado - Pico Curvo Largo" data-price="24900" data-img="img/bombilla4.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/bombilla5.jpg"><div class="product-info"><h3>Bombilla Pico curva de acero inox chata con Dije de Bronce</h3><div class="price">$4.900</div><input type="number" class="qty" value="1" min="1"><button data-name="Bombilla Pico curva de acero inox chata con Dije de Bronce" data-price="4900" data-img="img/bombilla5.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+<div class="product-card"><img src="img/bombilla6.jpg"><div class="product-info"><h3>«BOMBILLON» Grueso de Acero - Pico de Loro c/filtro Pala Grande</h3><div class="price">$9.900</div><input type="number" class="qty" value="1" min="1"><button data-name="«BOMBILLON» Grueso de Acero - Pico de Loro c/filtro Pala Grande" data-price="9900" data-img="img/bombilla6.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+</div></section>
+<div class="cart" id="cart"><div class="cart-header"><h3>Tu carrito</h3><button onclick="toggleCart()">✕</button></div><div id="cartItems"></div><div class="cart-total" id="cartTotal"></div><button onclick="checkout()">Comprar por WhatsApp</button></div>
+<script>
+const cart=[];const phone="549TU_NUMERO";
+function toggleCart(){document.getElementById('cart').classList.toggle('active')}
+function addToCart(btn){const name=btn.dataset.name;const price=Number(btn.dataset.price);const image=btn.dataset.img;const qty=Number(btn.previousElementSibling.value);cart.push({name,price,image,qty});renderCart()}
+function renderCart(){const items=document.getElementById('cartItems');const total=document.getElementById('cartTotal');items.innerHTML='';let sum=0;cart.forEach((p,i)=>{sum+=p.price*p.qty;items.innerHTML+=`<div class="cart-item"><img src="${p.image}"><span>${p.qty} x ${p.name}</span><span>$${p.price * p.qty}</span><button onclick="removeItem(${i})">✕</button></div>`;});total.innerText='Total: $'+sum}
+function removeItem(i){cart.splice(i,1);renderCart()}
+function checkout(){let msg='Hola! Quiero comprar:%0A';let total=0;cart.forEach(p=>{msg+=`${p.qty} x ${p.name}%0A`;total+=p.price*p.qty});msg+=`%0ATotal: $${total}`;window.open(`https://wa.me/${phone}?text=${msg}`,'_blank')}
+</script>
+</body>
+</html>
