@@ -104,17 +104,22 @@ header{position:absolute;width:100%;z-index:10}
 
   .hero {
     height: 85vh;                 /* más alto */
-    background-size: 200%;        /* 🔥 imagen más grande */
-    background-position: center 80%; /* 🎯 centra el mate */
+    background-size: 170%;        /* 🔥 imagen más grande */
+    background-position: center 60%; /* 🎯 centra el mate */
     background-repeat: no-repeat;
     background-color: #000;
   }
 
-  .hero-content {
-    align-items: flex-start;
-    padding-top: 4rem;
-    text-align: left;
-  }
+.hero-content {
+  justify-content: center;   /* ✅ centra verticalmente */
+  align-items: flex-start;   /* ⬅️ alinea a la izquierda */
+  text-align: left;
+  padding-top: 3rem;   /* compensa el header */
+}
+
+.hero-content > div {
+  margin-left: 1rem;            /* lo corre un poco a la izquierda */
+}
 
   .hero h1 {
     font-size: 2.4rem;
@@ -123,7 +128,6 @@ header{position:absolute;width:100%;z-index:10}
   .hero-text {
     font-size: 1rem;
   }
-
 }
 
 </style>
@@ -352,6 +356,7 @@ document.getElementById("wa2").onclick=()=>window.open(`https://wa.me/${wa2}`,'_
 
 </body>
 </html>
+
 
 
 
