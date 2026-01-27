@@ -99,6 +99,34 @@ header{position:absolute;width:100%;z-index:10}
   overflow-y: auto;
 }
 
+/* ===== AJUSTES PORTADA SOLO EN CELULAR ===== */
+@media (max-width: 768px) {
+
+  .hero {
+    height: 75vh;                 /* un poco más baja */
+    background-position: center center !important;
+    background-size: contain;     /* muestra el mate completo */
+    background-repeat: no-repeat;
+    background-color: #000;       /* relleno prolijo */
+  }
+
+  .hero-content {
+    align-items: flex-start;      /* texto más arriba */
+    padding-top: 4rem;
+    text-align: left;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;            /* título más chico en móvil */
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+
+}
+
+
 </style>
 </head>
 
@@ -325,3 +353,5 @@ document.getElementById("wa2").onclick=()=>window.open(`https://wa.me/${wa2}`,'_
 
 </body>
 </html>
+
+
