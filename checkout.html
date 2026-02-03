@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finalizar pedido - Soulmate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--verde:#1f3d2e;--marron:#4b2e2b;--gris:#f4f4f4}
+    body{font-family:'Montserrat',sans-serif;background:var(--gris);color:#333;padding:30px}
+
+    .box{
+      max-width:900px;
+      margin:auto;
+      background:#fff;
+      border-radius:18px;
+      box-shadow:0 10px 25px rgba(0,0,0,.12);
+      overflow:hidden;
+    }
+
+    .top{
+      padding:20px 24px;
+      background:var(--verde);
+      color:#fff;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .top h1{font-size:18px}
+    .top a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      border:1px solid rgba(255,255,255,.35);
+      padding:8px 12px;
+      border-radius:12px;
+    }
+
+    .content{
+      padding:24px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:20px;
+    }
+
+    @media(max-width:900px){
+      .content{grid-template-columns:1fr}
+    }
+
+    h2{font-size:16px;color:var(--verde);margin-bottom:12px}
+
+    .card{
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:16px;
+      padding:16px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    @media(max-width:520px){
+      .row{grid-template-columns:1fr}
+    }
+
+    label{
+      font-size:12px;
+      font-weight:600;
+      color:#444;
+      display:block;
+      margin-bottom:6px;
+    }
+
+    input, select, textarea{
+      width:100%;
+      padding:12px 12px;
+      border:1px solid #ddd;
+      border-radius:12px;
+      outline:none;
+      font-family:inherit;
+      font-size:14px;
+    }
+
+    textarea{min-height:90px;resize:vertical}
+
+    .order-item{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:13px;
+      padding:10px 0;
+      border-bottom:1px dashed #e6e6e6;
+    }
+
+    .order-item:last-child{border-bottom:none}
+
+    .total{
+      margin-top:12px;
+      font-weight:700;
+      font-size:15px;
+      color:var(--marron);
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .btn{
+      width:100%;
+      margin-top:14px;
+      padding:14px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:15px;
+    }
+
+    .btn-wa{
+      background:var(--marron);
+      color:#fff;
+    }
+
+    .btn-clear{
+      background:#eee;
+      color:#222;
+      border:1px solid #ddd;
+    }
+
+    .note{
+      font-size:12px;
+      color:#666;
+      margin-top:10px;
+      line-height:1.4;
+    }
+
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <div class="top">
+      <h1>🧾 Finalizar pedido</h1>
+      <a href="index.html">← Volver a la tienda</a>
+    </div>
+
+    <div class="content">
+
+      <!-- FORM -->
+      <div class="card">
+        <h2>Datos para el envío</h2>
+
+        <div class="row">
+          <div>
+            <label>Nombre y apellido *</label>
+            <input id="nombre" type="text" placeholder="Ej: Juan Pérez" required>
+          </div>
+          <div>
+            <label>Teléfono *</label>
+            <input id="telefono" type="tel" placeholder="Ej: 3572xxxxxx" required>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Email (opcional)</label>
+          <input id="email" type="email" placeholder="Ej: cliente@gmail.com">
+        </div>
+
+        <div class="row" style="margin-top:12px;">
+          <div>
+            <label>Provincia *</label>
+            <input id="provincia" type="text" placeholder="Ej: Córdoba" required>
+          </div>
+          <div>
+            <label>Localidad *</label>
+            <input id="localidad" type="text" placeholder="Ej: Laguna Larga" required>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px;">
+          <div>
+            <label>Código Postal *</label>
+            <input id="cp" type="text" placeholder="Ej: 5974" required>
+          </div>
+          <div>
+            <label>Tipo de envío *</label>
+            <select id="tipoEnvio" onchange="toggleSucursal()">
+              <option value="Domicilio">📦 Envío a domicilio</option>
+              <option value="Sucursal">🏤 Retiro en sucursal Correo Argentino</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="domicilioBox" style="margin-top:12px;">
+          <label>Dirección (calle + número) *</label>
+          <input id="direccion" type="text" placeholder="Ej: San Martín 123" required>
+          <div class="row" style="margin-top:12px;">
+            <div>
+              <label>Piso / Depto (opcional)</label>
+              <input id="depto" type="text" placeholder="Ej: 2B">
+            </div>
+            <div>
+              <label>Entre calles (opcional)</label>
+              <input id="entreCalles" type="text" placeholder="Ej: Entre Rivadavia y Belgrano">
+            </div>
+          </div>
+        </div>
+
+        <div id="sucursalBox" class="hidden" style="margin-top:12px;">
+          <label>Sucursal Correo Argentino (nombre o dirección) *</label>
+          <input id="sucursal" type="text" placeholder="Ej: Correo Argentino - Sucursal Centro, Av. ...">
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Comentarios (opcional)</label>
+          <textarea id="comentarios" placeholder="Ej: enviar por la tarde / tocar timbre / etc."></textarea>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Método de pago *</label>
+          <select id="pago">
+            <option value="Transferencia">💸 Transferencia</option>
+            <option value="Mercado Pago">💳 Mercado Pago</option>
+          </select>
+        </div>
+
+        <button class="btn btn-wa" onclick="sendWhatsApp()">Enviar pedido por WhatsApp</button>
+        <button class="btn btn-clear" onclick="clearCartAndBack()">Vaciar carrito</button>
+
+        <p class="note">
+          📌 Importante: el envío se coordina manualmente por Correo Argentino (domicilio o sucursal).
+        </p> <!-- MENSAJE IMPORTANTE (TRANSFERENCIA) -->
+<div class="aviso-transferencia">
+  <strong>📌 Importante:</strong><br><br>
+  Al enviar el pedido, el vendedor le dispondrá de cuenta bancaria con sus datos para que abone.
+  Tu pedido no se procesará hasta que se haya recibido el importe en nuestra cuenta.<br><br>
+  No olvides enviarnos el comprobante de pago en PDF a nuestro WhatsApp <b>3572522800</b> y ¡listo!
+</div>
+
+      </div>
+
+      <!-- RESUMEN -->
+      <div class="card">
+        <h2>Resumen del pedido</h2>
+        <div id="resumen"></div>
+        <div class="total">
+          <span>Total</span>
+          <span id="total">$0</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+  const wa1 = "5493572522800"; // tu WhatsApp principal
+
+  let cart = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  function money(n){
+    return "$" + Number(n).toLocaleString("es-AR");
+  }
+
+  function renderResumen(){
+    const resumen = document.getElementById("resumen");
+    const totalEl = document.getElementById("total");
+
+    if(cart.length === 0){
+      resumen.innerHTML = `<p style="font-size:13px;color:#666;">No hay productos en el carrito.</p>`;
+      totalEl.innerText = "$0";
+      return;
+    }
+
+    let total = 0;
+    resumen.innerHTML = "";
+
+    cart.forEach(p=>{
+      const sub = p.price * p.qty;
+      total += sub;
+      resumen.innerHTML += `
+        <div class="order-item">
+          <span>${p.qty} x ${p.name}</span>
+          <span>${money(sub)}</span>
+        </div>
+      `;
+    });
+
+    totalEl.innerText = money(total);
+  }
+
+  function toggleSucursal(){
+    const tipo = document.getElementById("tipoEnvio").value;
+    const sucursalBox = document.getElementById("sucursalBox");
+    const domicilioBox = document.getElementById("domicilioBox");
+
+    if(tipo === "Sucursal"){
+      sucursalBox.classList.remove("hidden");
+      domicilioBox.classList.add("hidden");
+    } else {
+      sucursalBox.classList.add("hidden");
+      domicilioBox.classList.remove("hidden");
+    }
+  }
+
+  function validate(){
+    const nombre = document.getElementById("nombre").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const provincia = document.getElementById("provincia").value.trim();
+    const localidad = document.getElementById("localidad").value.trim();
+    const cp = document.getElementById("cp").value.trim();
+    const tipoEnvio = document.getElementById("tipoEnvio").value;
+
+    if(cart.length === 0) return "Tu carrito está vacío.";
+
+    if(!nombre) return "Falta Nombre y apellido.";
+    if(!telefono) return "Falta Teléfono.";
+    if(!provincia) return "Falta Provincia.";
+    if(!localidad) return "Falta Localidad.";
+    if(!cp) return "Falta Código Postal.";
+
+    if(tipoEnvio === "Domicilio"){
+      const direccion = document.getElementById("direccion").value.trim();
+      if(!direccion) return "Falta Dirección.";
+    }
+
+    if(tipoEnvio === "Sucursal"){
+      const sucursal = document.getElementById("sucursal").value.trim();
+      if(!sucursal) return "Falta Sucursal de Correo Argentino.";
+    }
+
+    return null;
+  }
+
+  function sendWhatsApp(){
+    const err = validate();
+    if(err){
+      alert(err);
+      return;
+    }
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const email = document.getElementById("email").value.trim();
+
+    const provincia = document.getElementById("provincia").value.trim();
+    const localidad = document.getElementById("localidad").value.trim();
+    const cp = document.getElementById("cp").value.trim();
+
+    const tipoEnvio = document.getElementById("tipoEnvio").value;
+    const direccion = document.getElementById("direccion").value.trim();
+    const depto = document.getElementById("depto").value.trim();
+    const entreCalles = document.getElementById("entreCalles").value.trim();
+    const sucursal = document.getElementById("sucursal").value.trim();
+
+    const comentarios = document.getElementById("comentarios").value.trim();
+    const pago = document.getElementById("pago").value;
+
+    let msg = "Hola! 👋 Quiero hacer un pedido:\n\n";
+    msg += "🛒 *Productos:*\n";
+
+    let total = 0;
+    cart.forEach(p=>{
+      const sub = p.price * p.qty;
+      total += sub;
+      msg += `- ${p.qty} x ${p.name} (${money(sub)})\n`;
+    });
+
+    msg += `\n💰 *Total:* ${money(total)}\n`;
+    msg += `\n👤 *Cliente:* ${nombre}\n`;
+    msg += `📞 *Tel:* ${telefono}\n`;
+    if(email) msg += `📧 *Email:* ${email}\n`;
+
+    msg += `\n🚚 *Envío:* ${tipoEnvio}\n`;
+    msg += `📍 *Provincia:* ${provincia}\n`;
+    msg += `🏙️ *Localidad:* ${localidad}\n`;
+    msg += `📮 *CP:* ${cp}\n`;
+
+    if(tipoEnvio === "Domicilio"){
+      msg += `🏠 *Dirección:* ${direccion}\n`;
+      if(depto) msg += `🏢 *Piso/Depto:* ${depto}\n`;
+      if(entreCalles) msg += `🛣️ *Entre calles:* ${entreCalles}\n`;
+    } else {
+      msg += `🏤 *Sucursal:* ${sucursal}\n`;
+    }
+
+    msg += `\n💳 *Pago:* ${pago}\n`;
+    if(comentarios) msg += `📝 *Comentarios:* ${comentarios}\n`;
+
+    window.open(`https://wa.me/${wa1}?text=${encodeURIComponent(msg)}`,'_blank');
+  }
+
+  function clearCartAndBack(){
+    localStorage.removeItem("carrito");
+    window.location.href = "index.html";
+  }
+
+  renderResumen();
+  toggleSucursal();
+</script>
+
+</body>
+</html>
