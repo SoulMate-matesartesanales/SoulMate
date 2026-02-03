@@ -336,6 +336,55 @@ footer {
   }
 }
 
+
+  /* ===== MOBILE: 2 COLUMNAS + CUADROS MÁS ANCHOS Y FOTO CUADRADA ===== */
+@media (max-width: 600px){
+
+  .productos{
+    padding: 2.5rem 12px;
+  }
+
+  .product-grid{
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .product-card{
+    border-radius: 18px;
+  }
+
+  /* FOTO CUADRADA (se ve grande como en la web) */
+  .product-card img{
+    width: 100%;
+    aspect-ratio: 1 / 1;   /* cuadrada */
+    height: auto !important;
+    object-fit: cover;
+  }
+
+  .product-info{
+    padding: 12px;
+  }
+
+  .product-info h3{
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .price{
+    font-size: 16px;
+  }
+
+  .qty{
+    width: 55px;
+  }
+
+  .product-info button{
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 16px;
+  }
+}
+
 </style>
 </head>
 
@@ -705,6 +754,7 @@ renderCart();
 
 </body>
 </html>
+
 
 
 
