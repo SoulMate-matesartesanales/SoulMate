@@ -7,13 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-  
 html { scroll-behavior: smooth; }
-
-
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--verde:#1f3d2e;--marron:#4b2e2b;--gris:#f4f4f4}
 body{font-family:'Montserrat',sans-serif;background:#fff;color:#333}
+
+.titulo-categoria{
+  font-size: 26px;
+  margin: 60px auto 25px;
+  max-width: 1200px;
+  color: var(--verde);
+  border-bottom: 3px solid var(--marron);
+  padding-bottom: 8px;
+}
 
 header{position:absolute;width:100%;z-index:10}
 .nav{max-width:1200px;margin:auto;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
@@ -28,10 +34,72 @@ header{position:absolute;width:100%;z-index:10}
 
 .productos{padding:5rem 2rem;background:var(--gris)}
 .productos h2{text-align:center;margin-bottom:3rem;color:var(--verde)}
-.product-grid{max-width:1200px;margin:auto;display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 
 .product-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.1);text-align:center}
-.product-card img{width:100%;height:220px;object-fit:cover}
+
+/* ===== GRID DE PRODUCTOS ===== */
+.product-grid{
+  max-width:1400px;
+  margin:auto;
+  display:grid;
+  gap:1.5rem;
+  grid-template-columns:repeat(5,1fr);
+}
+
+/* Responsive */
+@media (max-width:1200px){
+  .product-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media (max-width:900px){
+  .product-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media (max-width:600px){
+  .product-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ===== IMAGEN VERTICAL ===== */
+.product-card img{
+  width:100%;
+  height:340px;
+  object-fit:cover;
+  cursor:zoom-in;
+}
+
+/* Hover pro */
+.product-card{
+  transition:.25s ease;
+}
+.product-card:hover{
+  transform:translateY(-4px);
+}
+
+/* ===== VISOR DE IMAGEN ===== */
+.img-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  z-index:5000;
+  justify-content:center;
+  align-items:center;
+}
+.img-modal.active{
+  display:flex;
+}
+.img-modal img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:14px;
+}
+.close-img{
+  position:absolute;
+  top:25px;
+  right:30px;
+  font-size:32px;
+  color:#fff;
+  cursor:pointer;
+}
+
 .product-info{padding:1rem}
 .product-info h3{font-size:13.5px;line-height:1.3;font-weight:600}
 .price{font-weight:bold;color:var(--marron);margin:.4rem 0}
@@ -45,54 +113,31 @@ header{position:absolute;width:100%;z-index:10}
 .cart-item span{font-size:11.5px}
 .cart-item img{width:45px;height:45px;border-radius:8px;object-fit:cover}
 .cart-total{font-weight:bold;margin-top:1rem}
-.cart button{width:100%;margin-top:1rem;padding:.7rem;border:none;border-radius:25px;background:var(--verde);color:#fff}
 
-
-/* WHATSAPP */
-.whatsapp-container{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:60px;
-  z-index:3000;
+/* botones del carrito */
+.cart .btn{
+  width:100%;
+  margin-top:.7rem;
+  padding:.7rem;
+  border:none;
+  border-radius:25px;
+  cursor:pointer;
+  font-weight:700;
 }
-.whatsapp-container img{width:100%;cursor:pointer}
-.whatsapp-opciones{
-  display:none;
-  position:absolute;
-  bottom:70px;
-  right:0;
-  background:#fff;
-  border-radius:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,.2);
-}
-.whatsapp-opciones a{
-  display:block;
-  padding:10px 14px;
-  text-decoration:none;
-  color:#000;
-}
-.whatsapp-opciones a:hover{
-  background:#25D366;
-  color:#fff;
-}
-.whatsapp-container.show .whatsapp-opciones{display:block}
-
-
-
+.cart .btn-finalizar{background:var(--verde);color:#fff;}
+.cart .btn-vaciar{background:#eee;color:#222;border:1px solid #ddd;}
+.cart .btn-vaciar:hover{background:#e5e5e5;}
 
 .cart-btn{
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 9999;
-
   background: var(--marron);
   color:#fff;
   padding:.6rem 1.4rem;
   border-radius:20px;
   cursor:pointer;
-
   box-shadow:0 4px 12px rgba(0,0,0,.25);
 }
 .cart {
@@ -103,60 +148,209 @@ header{position:absolute;width:100%;z-index:10}
 @media (max-width: 768px) {
 
   .hero {
-    height: 85vh;                 /* más alto */
-    background-size: 250%;        /* 🔥 imagen más grande */
-    background-position: 80%;     /* 🎯 centra el mate */
+    height: 85vh;
+    background-size: 170%;
+    background-position:  80%;
     background-repeat: no-repeat;
     background-color: #000;
   }
 
-  .hero-content {
-    justify-content: center;      /* ✅ centra verticalmente */
-    align-items: flex-start;      /* ⬅️ alinea a la izquierda */
-    text-align: left;
-    padding-top: 3rem;            /* compensa el header */
-  }
+.hero-content {
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding-top: 3rem;
+}
 
-  .hero-content > div {
-    margin-left: 1rem;
-    transform: translateY(17rem); /* ≈ 5 cm visuales en móvil */
-  }
+.hero-content > div {
+  margin-left: 1rem;
+  transform: translateY(12rem);
+}
 
-  .hero h1 {
-    font-size: 2.8rem;            /* 🔥 título un poco más grande */
-    line-height: 1.1;
-  }
+.hero h1 {
+  font-size: 2.8rem;
+  line-height: 1.1;
+}
 
-  .hero-text {
-    font-size: 1.15rem;           /* subtítulo más legible */
-    line-height: 1.4;
-  }
+.hero-text {
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+}
 
-  /* ✅ LOGO: 3 CM A LA IZQUIERDA SOLO EN MÓVIL */
-  .logo {
-    transform: translateX(-1cm);
-  }
+/* ===== FOOTER ===== */
+footer {
+  width: 100%;
+  background: #4b2e2a;
+}
 
+.site-footer {
+  background: #4b2e2a;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  padding: 70px 80px;
+  box-sizing: border-box;
+}
+
+.footer-col h3 {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.footer-col p {
+  color: #f1f1f1;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 6px 0;
+}
+
+.footer-bottom {
+  background: #3a221f;
+  text-align: center;
+  padding: 18px;
+  color: #eee;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 50px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+  }
+}
+
+/* ===== LINKS DEL FOOTER: BLANCOS Y SIN SUBRAYADO ===== */
+.site-footer a{
+  color:#f1f1f1 !important;
+  text-decoration:none !important;
+}
+.site-footer a:hover{
+  opacity:.85;
+  text-decoration:none !important;
+}
+
+/* ===== BOTÓN WHATSAPP FLOTANTE 2cm x 2cm ===== */
+.whatsapp-float{
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 2cm;
+  height: 2cm;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  box-shadow: 0 8px 18px rgba(0,0,0,.25);
+  cursor: pointer;
+}
+.whatsapp-float img{
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+/* ===== MENÚ WHATSAPP 1 / 2 ===== */
+.whatsapp-menu{
+  position: fixed;
+  right: 20px;
+  bottom: calc(20px + 2cm + 12px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.25);
+  overflow: hidden;
+  z-index: 999999;
+  width: 220px;
+  display: none;
+}
+.whatsapp-menu.active{
+  display: block;
+}
+.whatsapp-menu a{
+  display: block;
+  padding: 12px 14px;
+  text-decoration: none;
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+.whatsapp-menu a:last-child{
+  border-bottom: none;
+}
+.whatsapp-menu a:hover{
+  background: #f4f4f4;
+}
+.whatsapp-menu .title{
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #444;
+  background: #f9f9f9;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===== BOTÓN SUBIR ARRIBA ===== */
+.back-to-top{
+  position: fixed;
+  right: 20px;
+  bottom: calc(20px + 2cm + 20px);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--marron, #4b2e2b);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  z-index: 999999;
+  box-shadow: 0 8px 18px rgba(0,0,0,.25);
+  display: none;
+  font-size: 20px;
+  font-weight: 700;
+}
+.back-to-top.show{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 </head>
 
-
 <body>
+
+<!-- VISOR DE IMAGEN -->
+<div id="imgModal" class="img-modal" onclick="closeImg()">
+  <span class="close-img">✕</span>
+  <img id="imgModalContent">
+</div>
 
 <header>
   <div class="nav">
-    <div class="logo"><img src="img/logo.jpg"></div>
+    <div class="logo"><img src="img/logo.jpg" alt="Logo"></div>
     <div class="cart-btn" onclick="toggleCart()">🛒 Carrito</div>
-
-
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-content">
     <div>
-      <h1>Mates Artesanales</h1>
+      <h1>Mates artesanales</h1>
       <p class="hero-text">
         Tradición, calidad y diseño<br>
         pensados para acompañarte en cada momento.
@@ -165,14 +359,7 @@ header{position:absolute;width:100%;z-index:10}
   </div>
 </section>
 
-<section class="productos" id="productos" style="scroll-margin-top:120px;">
-  <h2>Nuestros productos</h2>
-  <div class="product-grid">
-
-
-
-<!-- ===== 18 PRODUCTOS ===== -->
-<section id="productos"></section>
+<!-- ===== PRODUCTOS ===== -->
 <section class="productos" id="productos" style="scroll-margin-top:120px;">
   <h2>Nuestros productos</h2>
 
@@ -181,288 +368,336 @@ header{position:absolute;width:100%;z-index:10}
   <section class="productos">
   <div class="product-grid">
 
+    <div class="product-card"><img src="img/mate1.jpg"><div class="product-info"><h3>Imperial Botitas Alpaca / Pelotas Bronce – Negro</h3><div class="price">$44.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Imperial Botitas Alpaca Negro" data-price="44900" data-img="img/mate1.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <!-- MATES (10) -->
-    <!-- (todos los mates tal cual estaban) -->
-    <!-- ↓↓↓ NO TOCADO ↓↓↓ -->
-
-    <!-- mate1 -->
-    <div class="product-card"><img src="img/mate1.jpg"><div class="product-info"><h3>Imperial Botitas Alpaca / Pelotas Bronce – Negro</h3><div class="price">$44.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Imperial Botitas Alpaca Negro" data-price="44900" data-img="img/mate1.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-
-    <div class="product-card"><img src="img/mate2.jpg"><div class="product-info"><h3>Torpedo Virola Alpaca – Cuero Borravino</h3><div class="price">$44.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Torpedo Alpaca Borravino" data-price="44900" data-img="img/mate2.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/mate2.jpg"><div class="product-info"><h3>Torpedo Virola Alpaca – Cuero Borravino</h3><div class="price">$44.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Torpedo Alpaca Borravino" data-price="44900" data-img="img/mate2.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
     <div class="product-card"><img src="img/mate3.jpg"><div class="product-info"><h3>Torpedo Virola Alpaca – Cuero Natural</h3><div class="price">$44.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Torpedo Alpaca Natural" data-price="44900" data-img="img/mate3.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/mate4.jpg"><div class="product-info"><h3>Torpedo Virola Alpaca – Cuero Negro</h3><div class="price">$44.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Torpedo Alpaca Negro" data-price="44900" data-img="img/mate4.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/mate4.jpg"><div class="product-info"><h3>Torpedo Virola Alpaca – Cuero Negro</h3><div class="price">$44.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Torpedo Alpaca Negro" data-price="44900" data-img="img/mate4.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/mate5.jpg"><div class="product-info"><h3>Mate Ranchero Pintado a Mano</h3><div class="price">$28.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Mate Ranchero Pintado" data-price="28900" data-img="img/mate5.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/mate5.jpg"><div class="product-info"><h3>Mate Ranchero Pintado a Mano</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Mate Ranchero Pintado" data-price="28900" data-img="img/mate5.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/mate6.jpg"><div class="product-info"><h3>Imperial Algarrobo Guarda Alpaca</h3><div class="price">$28.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Imperial Algarrobo Alpaca" data-price="28900" data-img="img/mate6.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/mate6.jpg"><div class="product-info"><h3>Imperial Algarrobo Guarda Alpaca</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Imperial Algarrobo Alpaca" data-price="28900" data-img="img/mate6.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/mate7.jpg"><div class="product-info"><h3>Torpedo Algarrobo Barnizado Alpaca</h3><div class="price">$28.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Torpedo Algarrobo Alpaca" data-price="28900" data-img="img/mate7.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/mate7.jpg"><div class="product-info"><h3>Torpedo Algarrobo Barnizado Alpaca</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Torpedo Algarrobo Alpaca" data-price="28900" data-img="img/mate7.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/mate8.jpg"><div class="product-info"><h3>Camionero 100% Algarrobo Virola Acero</h3><div class="price">$19.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Camionero Algarrobo" data-price="19900" data-img="img/mate8.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/mate8.jpg"><div class="product-info"><h3>Camionero 100% Algarrobo Virola Acero</h3><div class="price">$18.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Camionero Algarrobo" data-price="19900" data-img="img/mate8.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/mate10.jpg"><div class="product-info"><h3>Imperial Guarda Acero Marrón</h3><div class="price">$28.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Imperial Guarda Acero Marrón" data-price="28900" data-img="img/mate10.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/mate10.jpg"><div class="product-info"><h3>Imperial Guarda Acero Marrón</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Imperial Guarda Acero Marrón" data-price="28900" data-img="img/mate10.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    </div>
-  <button class="carousel-btn right" onclick="scrollCarousel(this,1)">›</button>
-</div>
+  </div>
+</section>
 
-
-  <!-- ================= TERMOS ================= -->
-  
-  
-  <h2 class="titulo-categoria" id="termos">Termos</h2>
+<!-- ================= TERMOS ================= -->
+<h2 class="titulo-categoria" id="termos">Termos</h2>
 <section class="productos">
   <div class="product-grid">
 
+    <div class="product-card"><img src="img/termo media manija negro GRABADO AFA MESSI 1L.jpg"><div class="product-info"><h3>termo media manija negro GRABADO AFA MESSI 1L</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="termo media manija negro GRABADO AFA MESSI 1L" data-price="24990" data-img="img/termo media manija negro GRABADO AFA MESSI 1L.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/termo media manija negro GRABADO AFA MESSI 1L.jpg"><div class="product-info"><h3>termo media manija negro GRABADO AFA MESSI 1L</h3><div class="price">$22.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Acero 1L" data-price="22900" data-img="img/termoplateado.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/TERMO MEDIA MANIJA NEGRO PERSONALIZADO RUTA 40 DISEÑO EXCLUSIVO Y UNICO 1L.jpg"><div class="product-info"><h3>TERMO MEDIA MANIJA NEGRO PERSONALIZADO RUTA 40 DISEÑO EXCLUSIVO Y UNICO 1L</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="TERMO MEDIA MANIJA NEGRO PERSONALIZADO RUTA 40 1L" data-price="24990" data-img="img/TERMO MEDIA MANIJA NEGRO PERSONALIZADO RUTA 40 DISEÑO EXCLUSIVO Y UNICO 1L.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/TERMO MEDIA MANIJA NEGRO PERSONALIZADO RUTA 40 DISEÑO EXCLUSIVO Y UNICO 1L.jpg"><div class="product-info"><h3>TERMO MEDIA MANIJA NEGRO PERSONALIZADO RUTA 40 DISEÑO EXCLUSIVO Y UNICO 1L</h3><div class="price">$24.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Negro 1L" data-price="24900" data-img="img/termonegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/termomedia manijaboca juniors1l.jpg"><div class="product-info"><h3>Termo media manija ACERO GRABADO boca juniors 1L</h3><div class="price">$22.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Boca 1L" data-price="22990" data-img="img/termomedia manijaboca juniors1l.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/termomedia manijaboca juniors1l.jpg"><div class="product-info"><h3>Termo media manija ACERO GRABADO boca juniors 1L</h3><div class="price">$22.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Boca 1L" data-price="22900" data-img="img/termoplateado.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/termomedia manijariverplate 1l.jpg"><div class="product-info"><h3>Termo media manija ACERO GRABADO River Plate 1L</h3><div class="price">$22.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo River 1L" data-price="22990" data-img="img/termomedia manijariverplate 1l.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/termomedia manijariverplate 1l.jpg"><div class="product-info"><h3>Termo media manija ACERO GRABADO River Plate 1L</h3><div class="price">$24.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo River 1L" data-price="24900" data-img="img/termonegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/Termo Terere 1.2 con mate y bombilla COLORES SURTIDOS.jpg"><div class="product-info"><h3>Termo Terere 1.2 con mate y bombilla COLORES SURTIDOS</h3><div class="price">$34.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Terere 1.2 con mate y bombilla" data-price="34990" data-img="img/Termo Terere 1.2 con mate y bombilla COLORES SURTIDOS.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-<div class="product-card"><img src="img/Termo Terere 1.2 con mate y bombilla COLORES SURTIDOS.jpg"><div class="product-info"><h3>Termo Terere 1.2 con mate y bombilla COLORES SURTIDOS</h3><div class="price">$24.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Negro 1L" data-price="24900" data-img="img/termonegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/termomediamanijagrabadobocajunIors 1l.jpg"><div class="product-info"><h3>Termo media manija NEGRO GRABADO Boca Juniors 1L</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Negro Boca 1L" data-price="24990" data-img="img/termomediamanijagrabadobocajunIors 1l.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/termomediamanijagrabadobocajunIors 1l.jpg"><div class="product-info"><h3>Termo media manija NEGRO GRABADO Boca Juniors 1L</h3><div class="price">$22.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Boca 1L" data-price="22900" data-img="img/termoplateado.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-
-    <div class="product-card"><img src="img/termomediamanijanegrograbadoriverplate1l.jpg"><div class="product-info"><h3>Termo media manija NRGRO GRABADO RIVER PLATE 1L</h3><div class="price">$24.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo River 1L" data-price="24900" data-img="img/termonegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/termomediamanijanegrograbadoriverplate1l.jpg"><div class="product-info"><h3>Termo media manija NEGRO GRABADO RIVER PLATE 1L</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Termo Negro River 1L" data-price="24990" data-img="img/termomediamanijanegrograbadoriverplate1l.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
   </div>
-  <button class="carousel-btn right" onclick="scrollCarousel(this,1)">›</button>
-</div>
+</section>
 
-
-  <!-- ================= BOMBILLAS ================= -->
-  <h3 class="titulo-categoria">Bombillas</h3>
-  <section class="productos">
+<!-- ================= BOMBILLAS ================= -->
+<h3 class="titulo-categoria">Bombillas</h3>
+<section class="productos">
   <div class="product-grid">
-
 
     <div class="product-card"><img src="img/bombilla1.jpg"><div class="product-info"><h3>Bombilla Pico de Loro Acero</h3><div class="price">$4.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bombilla Pico de Loro" data-price="4900" data-img="img/bombilla1.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
     <div class="product-card"><img src="img/bombilla2.jpg"><div class="product-info"><h3>Bombilla 100% Alpaca Bronce</h3><div class="price">$14.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bombilla Alpaca Bronce" data-price="14900" data-img="img/bombilla2.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/bombilla4.jpg"><div class="product-info"><h3>Bombillón Alpaca Completo</h3><div class="price">$24.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bombillon Alpaca Completo" data-price="24900" data-img="img/bombilla4.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/bombilla4.jpg"><div class="product-info"><h3>Bombillón Alpaca Completo doble dije - Caño Cincelado</h3><div class="price">$23.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bombillon Alpaca Completo" data-price="23900" data-img="img/bombilla4.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-    <div class="product-card"><img src="img/bombilla5.jpg"><div class="product-info"><h3>Bombilla Pico Curvo Bronce</h3><div class="price">$4.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bombilla Pico Curvo Bronce" data-price="4900" data-img="img/bombilla5.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+    <div class="product-card"><img src="img/bombilla5.jpg"><div class="product-info"><h3>Bombilla Pico Curvo Bronce</h3><div class="price">$4.500</div><input class="qty" type="number" value="1" min="1"><button data-name="Bombilla Pico Curvo Bronce" data-price="4500" data-img="img/bombilla5.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
     <div class="product-card"><img src="img/bombilla6.jpg"><div class="product-info"><h3>Bombillón Grueso Acero</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bombillon Grueso Acero" data-price="9900" data-img="img/bombilla6.jpg" onclick="addToCart(this)">Agregar</button></div></div>
 
-   </div>
-  <button class="carousel-btn right" onclick="scrollCarousel(this,1)">›</button>
-</div>
-
-
-  <!-- ================= BOLSOS ================= -->
-  <h3 class="titulo-categoria">CANASTAS Y BOLSOS</h3>
-  <section class="productos">
-  <div class="product-grid">
-
-    <div class="product-card"><img src="img/Canasta 100% cuero grande color BORRAVINO.jpg"><div class="product-info"><h3>Canasta 100% cuero grande color BORRAVINO</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso Tela Negro" data-price="9900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/Canasta 100% cuero grande color CINNAMON.jpg"><div class="product-info"><h3>Canasta 100% cuero grande color CINNAMON</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso Tela Negro" data-price="9900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/Canasta 100% cuero grande color MARRON.jpg"><div class="product-info"><h3>Canasta 100% cuero grande color MARRON</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso Tela Negro" data-price="9900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/Canasta negro CUERO CROCO.jpg"><div class="product-info"><h3>Canasta negro CUERO CROCO</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso Tela Negro" data-price="9900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/MOCHILA-BOLSO MATERO CON YERBERO Y AZUCARERO COLOR VERDE CON DETALLES EN SUELA.jpg"><div class="product-info"><h3>MOCHILA-BOLSO MATERO CON YERBERO Y AZUCARERO COLOR VERDE CON DETALLES EN SUELA</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso Tela Negro" data-price="9900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/MOCHILA-BOLSO MATERO NEGRO + YERBERO + AZUCARERO CON DETALLES EN COLOR SUELA.jpg"><div class="product-info"><h3>MOCHILA-BOLSO MATERO CON YERBERO Y AZUCARERO COLOR NEGRO CON DETALLES EN SUELA</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso Tela Negro" data-price="9900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/combobolsotelacolornegro.jpg"><div class="product-info"><h3>bolso con sujetador para termo + yerbero + azucarero COLOR NEGRO CLASICO (TELA)</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso Tela Negro" data-price="9900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-    </div>
-  <button class="carousel-btn right" onclick="scrollCarousel(this,1)">›</button>
-</div>
-
-
-  <!-- ================= VASOS ================= -->
-  <h3 class="titulo-categoria">Vasos térmicos</h3>
-  <section class="productos">
-  <div class="product-grid">
-
-    <div class="product-card"><img src="img/vasochopcervecero.jpg"><div class="product-info"><h3>Vaso Chop Cervecero</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/BOTELLA FLIP 650ML COLORES SURTIDOS.jpg"><div class="product-info"><h3>BOTELLA FLIP 650ML COLORES SURTIDOS</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/Vaso cervecero con destapados de 650ml color negro.jpg"><div class="product-info"><h3>Vaso cervecero con destapados de 650ml color negro</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/Vaso quencher marmolado 1.2L COLORES SURTIDO1.jpg"><div class="product-info"><h3>Vaso quencher marmolado 1.2L COLORES SURTIDO</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/Vaso quencher marmolado 1.2L COLORES SURTIDO.jpg"><div class="product-info"><h3>Vaso quencher marmolado 1.2L COLORES SURTIDO</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/Vaso quencher marmolado 1.2L COLORES SURTIDO2.jpg"><div class="product-info"><h3>Vaso quencher marmolado 1.2L COLORES SURTIDO</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/VASO QUENCHER TERMICO 1.2Lts CON BOMBILLA DE ACERO INOX Y PICO DE GOMA.jpg"><div class="product-info"><h3>VASO QUENCHER TERMICO 1.2Lts CON BOMBILLA DE ACERO INOX Y PICO DE GOMA</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  
-    </div>
-  <button class="carousel-btn right" onclick="scrollCarousel(this,1)">›</button>
-</div>
-
-
-<!-- ================= ACCESORIOS ================= -->
-  <h3 class="titulo-categoria">ACCESORIOS</h3>
-  <section class="productos">
-  <div class="product-grid">
-
-    <div class="product-card"><img src="img/Chaulata cuerina yerbero + azucarero INTERIOR PLASTIFICADO.jpg"><div class="product-info"><h3>CHAULATA YERBERO + AZUCARERO - NEGRO - INTERIOR PLASTIFICADO</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/CHAULATA YERBERO + AZUCARERO COLOR VERDE.jpg"><div class="product-info"><h3>CHAULATA YERBERO + AZUCARERO COLOR VERDE CON SUELA </h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/CHAULATA-YERBERO-AZUCARERO NEGRO.jpg"><div class="product-info"><h3>CHAULATA YERBERO + AZUCARERO COLOR NEGRO CON SUELA</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/LATAS MATERO BICOLOR VIOLETA.jpg"><div class="product-info"><h3>LATAS MATERAS BICOLOR VIOLETA</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/latas matero blancas.jpg"><div class="product-info"><h3>LATAS MATERAS BLANCAS</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/latas matero rosas.jpg"><div class="product-info"><h3>LATAS MATERAS BLANCAS ROSA</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  <div class="product-card"><img src="img/latas matero verdes.jpg"><div class="product-info"><h3>LATAS MATERAS BLANCAS VERDES</h3><div class="price">$9.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="9900" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
-  
-   </div>
-  <button class="carousel-btn right" onclick="scrollCarousel(this,1)">›</button>
-</div>
+  </div>
 </section>
 
+<!-- ================= BOLSOS ================= -->
+<h3 class="titulo-categoria">CANASTAS Y BOLSOS</h3>
+<section class="productos">
+  <div class="product-grid">
+
+    <div class="product-card"><img src="img/Canasta 100% cuero grande color BORRAVINO.jpg"><div class="product-info"><h3>Canasta 100% cuero grande color BORRAVINO</h3><div class="price">$29.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Canasta cuero BORRAVINO" data-price="29990" data-img="img/Canasta 100% cuero grande color BORRAVINO.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/Canasta 100% cuero grande color CINNAMON.jpg"><div class="product-info"><h3>Canasta 100% cuero grande color CINNAMON</h3><div class="price">$29.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Canasta cuero CINNAMON" data-price="29990" data-img="img/Canasta 100% cuero grande color CINNAMON.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/Canasta 100% cuero grande color MARRON.jpg"><div class="product-info"><h3>Canasta 100% cuero grande color MARRON</h3><div class="price">$29.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Canasta cuero MARRON" data-price="29990" data-img="img/Canasta 100% cuero grande color MARRON.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/Canasta negro CUERO CROCO.jpg"><div class="product-info"><h3>Canasta negro CUERO CROCO</h3><div class="price">$19.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Canasta negro CUERO CROCO" data-price="19990" data-img="img/Canasta negro CUERO CROCO.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/MOCHILA-BOLSO MATERO CON YERBERO Y AZUCARERO COLOR VERDE CON DETALLES EN SUELA.jpg"><div class="product-info"><h3>MOCHILA-BOLSO MATERO CON YERBERO Y AZUCARERO COLOR VERDE CON DETALLES EN SUELA</h3><div class="price">$19.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Mochila-bolso matero VERDE" data-price="19990" data-img="img/MOCHILA-BOLSO MATERO CON YERBERO Y AZUCARERO COLOR VERDE CON DETALLES EN SUELA.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/MOCHILA-BOLSO MATERO NEGRO + YERBERO + AZUCARERO CON DETALLES EN COLOR SUELA.jpg"><div class="product-info"><h3>MOCHILA-BOLSO MATERO CON YERBERO Y AZUCARERO COLOR NEGRO CON DETALLES EN SUELA</h3><div class="price">$21.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Mochila-bolso matero NEGRO" data-price="21900" data-img="img/MOCHILA-BOLSO MATERO NEGRO + YERBERO + AZUCARERO CON DETALLES EN COLOR SUELA.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/combobolsotelacolornegro.jpg"><div class="product-info"><h3>bolso con sujetador para termo + yerbero + azucarero COLOR NEGRO CLASICO (TELA)</h3><div class="price">$12.900</div><input class="qty" type="number" value="1" min="1"><button data-name="Bolso matero TELA negro" data-price="12900" data-img="img/combobolsotelacolornegro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+  </div>
+</section>
+
+<!-- ================= VASOS ================= -->
+<h3 class="titulo-categoria">Vasos térmicos</h3>
+<section class="productos">
+  <div class="product-grid">
+
+    <div class="product-card"><img src="img/vasochopcervecero.jpg"><div class="product-info"><h3>Vaso Chop Cervecero</h3><div class="price">$19.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso Chop Cervecero" data-price="19990" data-img="img/vasochopcervecero.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/BOTELLA FLIP 650ML COLORES SURTIDOS.jpg"><div class="product-info"><h3>BOTELLA FLIP 650ML COLORES SURTIDOS</h3><div class="price">$19.990</div><input class="qty" type="number" value="1" min="1"><button data-name="BOTELLA FLIP 650ML" data-price="19990" data-img="img/BOTELLA FLIP 650ML COLORES SURTIDOS.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/Vaso cervecero con destapados de 650ml color negro.jpg"><div class="product-info"><h3>Vaso cervecero con destapados de 650ml color negro</h3><div class="price">$13.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso cervecero 650ml negro" data-price="13990" data-img="img/Vaso cervecero con destapados de 650ml color negro.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/Vaso quencher marmolado 1.2L COLORES SURTIDO1.jpg"><div class="product-info"><h3>Vaso quencher marmolado 1.2L COLORES SURTIDO</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso quencher 1.2L marmolado" data-price="24990" data-img="img/Vaso quencher marmolado 1.2L COLORES SURTIDO1.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/Vaso quencher marmolado 1.2L COLORES SURTIDO.jpg"><div class="product-info"><h3>Vaso quencher marmolado 1.2L COLORES SURTIDO</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso quencher 1.2L marmolado" data-price="24990" data-img="img/Vaso quencher marmolado 1.2L COLORES SURTIDO.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/Vaso quencher marmolado 1.2L COLORES SURTIDO2.jpg"><div class="product-info"><h3>Vaso quencher marmolado 1.2L COLORES SURTIDO</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Vaso quencher 1.2L marmolado" data-price="24990" data-img="img/Vaso quencher marmolado 1.2L COLORES SURTIDO2.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/VASO QUENCHER TERMICO 1.2Lts CON BOMBILLA DE ACERO INOX Y PICO DE GOMA.jpg"><div class="product-info"><h3>VASO QUENCHER TERMICO 1.2Lts CON BOMBILLA DE ACERO INOX Y PICO DE GOMA</h3><div class="price">$24.990</div><input class="qty" type="number" value="1" min="1"><button data-name="VASO QUENCHER 1.2L con bombilla" data-price="24990" data-img="img/VASO QUENCHER TERMICO 1.2Lts CON BOMBILLA DE ACERO INOX Y PICO DE GOMA.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+  </div>
+</section>
+
+<!-- ================= ACCESORIOS ================= -->
+<h3 class="titulo-categoria">ACCESORIOS</h3>
+<section class="productos">
+  <div class="product-grid">
+
+    <div class="product-card"><img src="img/Chaulata cuerina yerbero + azucarero INTERIOR PLASTIFICADO.jpg"><div class="product-info"><h3>CHAULATA YERBERO + AZUCARERO - NEGRO - INTERIOR PLASTIFICADO</h3><div class="price">$7.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Chaulata yerbero+azucarero NEGRO" data-price="7990" data-img="img/Chaulata cuerina yerbero + azucarero INTERIOR PLASTIFICADO.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/CHAULATA YERBERO + AZUCARERO COLOR VERDE.jpg"><div class="product-info"><h3>CHAULATA YERBERO + AZUCARERO COLOR VERDE CON SUELA</h3><div class="price">$9.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Chaulata yerbero+azucarero VERDE" data-price="9990" data-img="img/CHAULATA YERBERO + AZUCARERO COLOR VERDE.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/CHAULATA-YERBERO-AZUCARERO NEGRO.jpg"><div class="product-info"><h3>CHAULATA YERBERO + AZUCARERO COLOR NEGRO CON SUELA</h3><div class="price">$9.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Chaulata yerbero+azucarero NEGRO" data-price="9990" data-img="img/CHAULATA-YERBERO-AZUCARERO NEGRO.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/LATAS MATERO BICOLOR VIOLETA.jpg"><div class="product-info"><h3>LATAS MATERAS BICOLOR VIOLETA</h3><div class="price">$7.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Latas materas bicolor VIOLETA" data-price="7990" data-img="img/LATAS MATERO BICOLOR VIOLETA.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/latas matero blancas.jpg"><div class="product-info"><h3>LATAS MATERAS BLANCAS</h3><div class="price">$7.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Latas materas BLANCAS" data-price="7990" data-img="img/latas matero blancas.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/latas matero rosas.jpg"><div class="product-info"><h3>LATAS MATERAS BLANCAS ROSA</h3><div class="price">$7.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Latas materas ROSA" data-price="7990" data-img="img/latas matero rosas.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+    <div class="product-card"><img src="img/latas matero verdes.jpg"><div class="product-info"><h3>LATAS MATERAS BLANCAS VERDES</h3><div class="price">$7.990</div><input class="qty" type="number" value="1" min="1"><button data-name="Latas materas VERDES" data-price="7990" data-img="img/latas matero verdes.jpg" onclick="addToCart(this)">Agregar</button></div></div>
+
+  </div>
+</section>
+
+<!-- ================= CARRITO ================= -->
 <div class="cart" id="cart">
   <div class="cart-header">
     <h3>Tu carrito</h3>
     <button onclick="toggleCart()">✕</button>
   </div>
 
-
-  
   <div id="cartItems"></div>
   <div class="cart-total" id="cartTotal"></div>
-  <button onclick="checkout()">Comprar por WhatsApp</button>
+
+  <button class="btn btn-finalizar" onclick="goToCheckout()">Finalizar pedido</button>
+  <button class="btn btn-vaciar" onclick="clearCart()">Vaciar carrito</button>
 </div>
 
-<div class="whatsapp-container" id="waBox">
-  <img src="img/whatsapp.jpg" onclick="toggleWA()">
-  <div class="whatsapp-opciones">
-    <a id="wa1">📱 Ventas 1</a>
-    <a id="wa2">📱 Ventas 2</a>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-grid">
+
+    <div class="footer-col">
+      <h3>Soulmate</h3>
+      <p>El mate que acompaña tus momentos.</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Mis productos</h3>
+      <p>👉 <a href="#productos">Ver nuestros productos</a></p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Contacto</h3>
+      <p>📱 <a href="https://wa.me/5493572522800" target="_blank">WhatsApp 1</a></p>
+      <p>📱 <a href="https://wa.me/5493572604189" target="_blank">WhatsApp 2</a></p>
+      <p>📷 <a href="https://instagram.com/soul.mate.ok" target="_blank">@soul.mate.ok</a></p>
+      <p>📍 Laguna Larga, Córdoba</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Envíos y pagos</h3>
+      <p>🚚 Envíos a todo el país</p>
+      <p>💳 Mercado Pago</p>
+      <p>🔁 Cambios y devoluciones</p>
+    </div>
+
   </div>
+
+  <div class="footer-bottom">
+    © Soulmate — Objetos con alma para compartir
+  </div>
+</footer>
+
+<!-- BOTÓN SUBIR ARRIBA -->
+<button class="back-to-top" id="backToTop" aria-label="Volver arriba">↑</button>
+
+<!-- MENÚ WHATSAPP (WhatsApp 1 / WhatsApp 2) -->
+<div class="whatsapp-menu" id="whatsappMenu">
+  <div class="title">Elegí un WhatsApp</div>
+
+  <a href="https://wa.me/5493572522800?text=Hola!%20Quiero%20hacer%20una%20consulta%20😊" target="_blank">
+    📱 WhatsApp 1
+  </a>
+
+  <a href="https://wa.me/5493572604189?text=Hola!%20Quiero%20hacer%20una%20consulta%20😊" target="_blank">
+    📱 WhatsApp 2
+  </a>
+</div>
+
+<!-- BOTÓN WHATSAPP FLOTANTE -->
+<div class="whatsapp-float" id="whatsappFloatBtn" title="WhatsApp">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
 </div>
 
 <script>
-const cart=[];
-const wa1="5493572522800";
-const wa2="5493572604189";
+/* ================== CARRITO PRO + CHECKOUT ================== */
+
+// cargar carrito guardado
+let cart = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function saveCart(){
+  localStorage.setItem("carrito", JSON.stringify(cart));
+}
 
 function toggleCart(){
   document.getElementById('cart').classList.toggle('active');
 }
-function toggleWA(){
-  document.getElementById('waBox').classList.toggle('show');
-}
+
 function addToCart(btn){
-  const name=btn.dataset.name;
-  const price=Number(btn.dataset.price);
-  const image=btn.dataset.img;
-  const qty=Number(btn.previousElementSibling.value);
-  cart.push({name,price,image,qty});
+  const name = btn.dataset.name;
+  const price = Number(btn.dataset.price);
+  const image = btn.dataset.img;
+  const qty = Number(btn.previousElementSibling.value);
+
+  const existing = cart.find(p => p.name === name);
+  if(existing){
+    existing.qty += qty;
+  } else {
+    cart.push({name, price, image, qty});
+  }
+
+  saveCart();
   renderCart();
+
+  document.getElementById('cart').classList.add('active');
 }
+
 function renderCart(){
-  const items=document.getElementById('cartItems');
-  const total=document.getElementById('cartTotal');
-  items.innerHTML='';
-  let sum=0;
+  const items = document.getElementById('cartItems');
+  const total = document.getElementById('cartTotal');
+
+  items.innerHTML = '';
+  let sum = 0;
+
+  if(cart.length === 0){
+    items.innerHTML = `<p style="font-size:13px;color:#666;margin-top:10px;">Tu carrito está vacío.</p>`;
+    total.innerText = 'Total: $0';
+    return;
+  }
+
   cart.forEach((p,i)=>{
-    sum+=p.price*p.qty;
-    items.innerHTML+=`
-    <div class="cart-item">
-      <img src="${p.image}">
-      <span>${p.qty} x ${p.name}</span>
-      <span>$${p.price*p.qty}</span>
-      <button onclick="removeItem(${i})">✕</button>
-    </div>`;
+    sum += p.price * p.qty;
+    items.innerHTML += `
+      <div class="cart-item">
+        <img src="${p.image}">
+        <span>${p.qty} x ${p.name}</span>
+        <span>$${(p.price*p.qty).toLocaleString("es-AR")}</span>
+        <button onclick="removeItem(${i})">✕</button>
+      </div>`;
   });
-  total.innerText='Total: $'+sum;
+
+  total.innerText = 'Total: $' + sum.toLocaleString("es-AR");
 }
+
 function removeItem(i){
   cart.splice(i,1);
+  saveCart();
   renderCart();
 }
-function checkout(){
-  let msg='Hola! Quiero comprar:\n';
-  let total=0;
-  cart.forEach(p=>{
-    msg+=`${p.qty} x ${p.name} - $${p.price*p.qty}\n`;
-    total+=p.price*p.qty;
-  });
-  msg+=`\nTotal: $${total}`;
-  window.open(`https://wa.me/${wa1}?text=${encodeURIComponent(msg)}`,'_blank');
+
+function clearCart(){
+  cart = [];
+  saveCart();
+  renderCart();
 }
-document.getElementById("wa1").onclick=()=>window.open(`https://wa.me/${wa1}`,'_blank');
-document.getElementById("wa2").onclick=()=>window.open(`https://wa.me/${wa2}`,'_blank');
+
+function goToCheckout(){
+  if(cart.length === 0){
+    alert("Tu carrito está vacío.");
+    return;
+  }
+  window.location.href = "checkout.html";
+}
+
+/* ===== VISOR IMAGEN ===== */
+function openImg(src){
+  const modal = document.getElementById("imgModal");
+  const img = document.getElementById("imgModalContent");
+  img.src = src;
+  modal.classList.add("active");
+}
+function closeImg(){
+  document.getElementById("imgModal").classList.remove("active");
+}
+document.querySelectorAll(".product-card img").forEach(img=>{
+  img.addEventListener("click",()=>openImg(img.src));
+});
+
+/* ===== BOTÓN SUBIR ARRIBA ===== */
+const backToTop = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+  if(window.scrollY > 400){
+    backToTop.classList.add("show");
+  } else {
+    backToTop.classList.remove("show");
+  }
+});
+
+backToTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* ===== MENÚ WHATSAPP 1 / 2 ===== */
+const whatsappBtn = document.getElementById("whatsappFloatBtn");
+const whatsappMenu = document.getElementById("whatsappMenu");
+
+whatsappBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  whatsappMenu.classList.toggle("active");
+});
+
+whatsappMenu.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
+document.addEventListener("click", () => {
+  whatsappMenu.classList.remove("active");
+});
+
+/* ===== RENDER AL CARGAR ===== */
+renderCart();
 </script>
-
-<!-- FOOTER SOULMATE -->
-<footer style="
-  background:#4b2e2b;
-  color:#f4f1ec;
-  margin-top:60px;
-  padding:50px 20px 20px;
-  font-family: Arial, sans-serif;
-">
-
-  <div style="
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:40px;
-  ">
-
-    <!-- Columna 1 -->
-<div>
-  <h2 style="font-size:26px; margin-bottom:10px;">Soulmate</h2>
-  <p style="font-style:italic; line-height:1.5;">
-    El mate que acompaña<br>tus momentos.
-  </p>
-</div>
-
-<!-- Columna 2 -->
-<div>
-  <h3 style="margin-bottom:15px;">🧉 Mis productos</h3>
-  <p>
-    <a href="#productos" style="color:#f4f1ec; text-decoration:none;">
-      👉 Ver nuestros productos
-    </a>
-  </p>
-</div>
-
-
-<!-- Columna 3 -->
-<div>
-  <h3 style="margin-bottom:15px;">Contacto</h3>
-
-  <p>
-    📲 
-    <a href="https://wa.me/5493572522800" target="_blank"
-       style="color:#f4f1ec; text-decoration:none;">
-       WhatsApp 1
-    </a>
-    /
-    <a href="https://wa.me/5493572604189" target="_blank"
-       style="color:#f4f1ec; text-decoration:none;">
-       WhatsApp 2
-    </a>
-  </p>
-
-  <p>
-    📸 
-    <a href="https://www.instagram.com/soul.mate.ok" target="_blank"
-       style="color:#f4f1ec; text-decoration:none;">
-       Instagram: @soul.mate.ok
-      
-    </a>
-  </p>
-
-  <p>📍 Laguna Larga, Córdoba</p>
-</div>
-
-<!-- Columna 4 -->
-<div>
-  <h3 style="margin-bottom:15px;">Envíos y pagos</h3>
-  <p>🚚 Envíos a todo el país</p>
-  <p>💳 Mercado Pago</p>
-  <p>🔄 Cambios y devoluciones</p>
-</div>
 
 </body>
 </html>
-
-
 
 
 
